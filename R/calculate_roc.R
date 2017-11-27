@@ -225,11 +225,14 @@ calc_auc <- function(ggroc){
   l1 <- ggplot_build(ggroc)$data[[1]]
   
   comp_auc <- function(df){
-    
+
     auc <- 0
-    for (i in 2:length(df$x)) {
-      auc <- auc + 0.5 * (df$x[i] - df$x[i-1]) * (df$y[i] + df$y[i-1])
-    }
+    auc <- sum(0.5 * diff(x = df$x) * (df$y[-1] + df$y[-nrow(df)]))
+    
+    # for (i in 2:length(df$x)) {
+    #   auc <- auc + 0.5 * (df$x[i] - df$x[i-1]) * (df$y[i] + df$y[i-1])
+    # }
+
     return(data.frame(AUC = auc))
   }
   
